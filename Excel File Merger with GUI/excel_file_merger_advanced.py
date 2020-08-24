@@ -68,9 +68,6 @@ def combine_excel(source, destination, output_file):
         df_combined = pd.concat(
             [df_combined, df], ignore_index=True)
 
-    print("\n")
-    print(Path(destination), "\n")
-    print(output_file, "\n")
     df_combined.to_excel(Path(destination + '/' + output_file + ".xlsx"))
 
     if(app.questionBox("File Saved", "Output Excel files saved. Do you want to quit?")):
