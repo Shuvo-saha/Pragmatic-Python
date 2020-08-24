@@ -6,20 +6,6 @@ import pandas as pd
 import os
 
 
-# These take the inputs from the intent
-source = input("Input_Directory: \n")
-destination = input("Output_Directory: \n")
-output_file = input("Output_Name: \n")
-# This triggers the validate input function defined below to check for errors
-errors, error_message = validate_inputs(
-    source, destination, output_file)
-# If validate inputs returns an error, show that message to the user
-if errors:
-    print("Error: " + error_message)
-else:
-    combine_excel(source, destination, output_file)
-
-
 def validate_inputs(source, destination, output_file):
     # Assume there are no errors and the error message is nonexistent
     errors = False
@@ -61,24 +47,18 @@ def combine_excel(source, destination, output_file):
 
     df_combined.to_excel(Path(destination + '/' + output_file + ".xlsx"))
 
-    if(app.questionBox("File Saved", "Output Excel files saved. Do you want to quit?")):
-        app.stop()
+    print("File Saved")
 
 
-app = gui("Excel File Merger", useTtk=True)
-app.setTtkTheme("clam")
-app.setSize(500, 200)
-
-app.addLabel("Choose Folder with Excel Files to be Merged")
-app.addDirectoryEntry("Input_Directory")
-
-app.addLabel("Select Output Directory")
-app.addDirectoryEntry("Output_Directory")
-
-app.addLabel("Output File Name")
-app.addEntry("Output_Name")
-
-app.addintents(["Combine", "Quit"], press)
-
-
-app.go()
+# These take the inputs from the intent
+source = input("Input_Directory: \n").replace('"', "")
+destination = input("Output_Directory: \n").replace('"', "")
+output_file = input("Output_Name: \n").replace('"', "")
+# This triggers the validate input function defined below to check for errors
+errors, error_message = validate_inputs(
+    source, destination, output_file)
+# If validate inputs returns an error, show that message to the user
+if errors:
+    print("Error: " + error_message)
+else:
+    combine_excel(source, destination, output_file)
