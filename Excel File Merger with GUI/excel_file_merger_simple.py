@@ -1,5 +1,4 @@
 # Some helpful libraries
-from appJar import gui
 from pathlib import Path
 import pandas as pd
 import os
