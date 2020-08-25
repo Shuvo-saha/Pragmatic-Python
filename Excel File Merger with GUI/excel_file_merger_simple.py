@@ -1,4 +1,3 @@
-# Make sure to install openpyxl and xlrd
 # Some helpful libraries
 from appJar import gui
 from pathlib import Path
@@ -41,11 +40,12 @@ def combine_excel(source, destination, output_file):
     input_dir = os.listdir(Path(source))
 
     for files in input_dir:
-        df = pd.read_excel(Path(source + '/' + files))
+        df = pd.read_csv(Path(source + '/' + files))
         df_combined = pd.concat(
             [df_combined, df], ignore_index=True)
 
-    df_combined.to_excel(Path(destination + '/' + output_file + ".xlsx"))
+    df_combined.to_csv(
+        Path(destination + '/' + output_file + ".csv"), index=False)
 
     print("File Saved")
 

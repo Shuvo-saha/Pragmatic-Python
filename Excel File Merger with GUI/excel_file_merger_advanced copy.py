@@ -1,3 +1,4 @@
+# Make sure to install openpyxl and xlrd
 # Some helpful libraries
 from appJar import gui
 from pathlib import Path
@@ -51,23 +52,6 @@ def validate_inputs(source, destination, output_file):
         errors = True
         error_message.append("Please enter a file name")
 
-    # This checks all the files in the input directory to see if
-    # they're all csv files or not
-
-    # Create a path variable from the source directory name and
-    # use the listdir function from the os library to allow
-    # the program to iterate over all the files in the input directory
-    input_dir = os.listdir(Path(source))
-    csv_error_message = ''
-    for files in input_dir:
-        # Create an error message if the suffix of the file is not .csv
-        if Path(files).suffix.lower() != ".csv":
-            errors = True
-            csv_error_message = "Please select a directory with only csv files"
-    # Note that this is out of the loop because I don't want to repeat the
-    # error message in the loop
-    error_message.append(csv_error_message)
-
     # This returns the errors and the message
     return(errors, error_message)
 
@@ -75,39 +59,38 @@ def validate_inputs(source, destination, output_file):
 def combine_excel(source, destination, output_file):
     # make an empty dataframe
     df_combined = pd.DataFrame()
+    # Create a path variable from the source directory name and
+    # use the listdir function from the os library
     input_dir = os.listdir(Path(source))
-    # Similar iteration to the error message iteration before
-    # reads through all the files in the directory and adds
-    # that dataframe to our main dataframe
+
     for files in input_dir:
-        df = pd.read_csv(Path(source + '/' + files))
+        df = pd.read_excel(Path(source + '/' + files))
         df_combined = pd.concat(
             [df_combined, df], ignore_index=True)
 
-    # Saves the dataframe to our output directory
-    df_combined.to_csv(
-        Path(destination + '/' + output_file + ".csv"), index=False)
+    print("\n")
+    print(Path(destination), "\n")
+    print(output_file, "\n")
+    df_combined.to_excel(Path(destination + '/' + output_file + ".xlsx"))
 
-    if(app.questionBox("File Saved", "Output csv files saved. Do you want to quit?")):
+    if(app.questionBox("File Saved", "Output Excel files saved. Do you want to quit?")):
         app.stop()
 
 
-# Name of the app and the theme and size
 app = gui("Excel File Merger", useTtk=True)
 app.setTtkTheme("clam")
 app.setSize(500, 200)
 
-# The first button with input directory
-app.addLabel("Choose Folder with CSV Files to be Merged")
+app.addLabel("Choose Folder with Excel Files to be Merged")
 app.addDirectoryEntry("Input_Directory")
-# The second button with output directory
+
 app.addLabel("Select Output Directory")
 app.addDirectoryEntry("Output_Directory")
-# Output file name entry
+
 app.addLabel("Output File Name")
 app.addEntry("Output_Name")
-# Two buttons at the end
+
 app.addButtons(["Combine", "Quit"], press)
 
-# Start the app
+
 app.go()
