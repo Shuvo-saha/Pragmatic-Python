@@ -3,7 +3,7 @@ Some supplementary materials for the Pragmatic Python series on Medium
 
 ## Excel File Merger
 Contains two versions: 
-The simple version is a command line based interface that takes the input directory containing all the csv files required, output directory and output file name.
+The <b>simple version is a command line based interface that takes the input directory containing all the csv files required, output directory and output file name.
 The advanced version is similar with a couple more error checks and a GUI
 
 ## Money Manager
